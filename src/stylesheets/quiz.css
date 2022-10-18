@@ -1,0 +1,47 @@
+/*****************/
+/* QUIZ */
+/*****************/
+
+.question__tracker {
+  margin-bottom: 3.6rem;
+}
+
+.quiz-container {
+  background: var(--clr-primary);
+  border: 0.3rem solid var(--clr-accent);
+  border-radius: 0.5rem;
+  text-align: center;
+  padding: 6rem 10rem;
+  max-width: 100rem;
+}
+
+.quiz__question {
+  color: var(--clr-white);
+  font-size: 2.4rem;
+  font-weight: 600;
+  margin-bottom: 4rem;
+}
+
+.quiz__choice-container {
+  gap: 1rem;
+  font-size: 1.6rem;
+  margin-bottom: 2rem;
+  align-items: center;
+}
+
+/*****************/
+/* MULTIPLE CHOICE */
+/*****************/
+
+.quiz__choice {
+  background: var(--clr-accent);
+  color: var(--clr-white);
+  border-radius: 0.5rem;
+  border: 0.2rem solid var(--clr-white);
+  padding: 1rem 5rem;
+  width: 25em;
+}
+
+/*****************/
+/* TRUE/FALSE */
+/*****************/
