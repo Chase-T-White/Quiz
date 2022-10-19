@@ -1,0 +1,19 @@
+.quiz__options-form {
+  background: var(--clr-primary);
+  border: 0.2rem solid var(--clr-accent);
+  border-radius: 0.5rem;
+  padding: 5rem 3rem;
+  gap: 2rem;
+}
+
+.form__selector-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form__label {
+  color: var(--clr-white);
+  font-size: 1.8rem;
+  font-weight: 600;
+}
