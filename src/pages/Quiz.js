@@ -5,13 +5,29 @@ import TF from "../components/TF";
 import { useGlobalContext } from "../context";
 
 const Quiz = () => {
-  const { quiz } = useGlobalContext();
+  const { quiz, loading } = useGlobalContext();
+
   const [index, setIndex] = useState(0);
   const [isChecked, setIsChecked] = useState(false);
   const [correctTracker, setCorrectTracker] = useState(0);
-  const { loading, questionType } = useGlobalContext();
 
-  const checkAnswer = (value) => {};
+  const checkAnswer = (selectedAnswer) => {
+    if (selectedAnswer === quiz[index].correct_answer) {
+      setCorrectTracker(correctTracker + 1);
+    }
+    return setIsChecked(true);
+  };
+
+  const nextQuestion = () => {
+    setIsChecked(false);
+    return setIndex(index + 1);
+  };
+
+  // useEffect(() => {
+  //   if (!index) {
+  //     return;
+  //   }
+  // }, [index]);
 
   // const quizQuestion = () => {
   if (loading) {
@@ -27,12 +43,16 @@ const Quiz = () => {
         <p className='quiz__question'>{question}</p>
         <div className='quiz__choice-container flex fd-column'>
           {type === "multiple" ? (
-            <MultipleChoice {...quiz[index]} />
+            <MultipleChoice {...quiz[index]} checkAnswer={checkAnswer} />
           ) : (
-            <TF {...quiz[index]} />
+            <TF checkAnswer={checkAnswer} />
           )}
         </div>
-        {isChecked && <button className='btn'>"Next"</button>}
+        {isChecked && (
+          <button className='btn' onClick={nextQuestion}>
+            Next
+          </button>
+        )}
       </div>
     </div>
   );
