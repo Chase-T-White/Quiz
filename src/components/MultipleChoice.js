@@ -1,10 +1,20 @@
-const MultipleChoice = () => {
+const MultipleChoice = ({ correct_answer, incorrect_answers }) => {
+  console.log(correct_answer, incorrect_answers);
+  let answersList = incorrect_answers;
+
+  answersList.splice(Math.floor(Math.random() * 4), 0, correct_answer);
+
+  console.log(answersList);
+
   return (
     <>
-      <button className='quiz__choice'>low, all</button>
-      <button className='quiz__choice'>low, some</button>
-      <button className='quiz__choice'>high, all</button>
-      <button className='quiz__choice'>high, some</button>
+      {answersList.map((answer) => {
+        return (
+          <button key={Math.ceil(Math.random() * 100)} className='quiz__choice'>
+            {answer}
+          </button>
+        );
+      })}
     </>
   );
 };
