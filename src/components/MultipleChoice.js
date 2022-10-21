@@ -1,10 +1,4 @@
-const MultipleChoice = ({ correct_answer, incorrect_answers, checkAnswer }) => {
-  let answersList = [...incorrect_answers];
-
-  answersList.splice(Math.floor(Math.random() * 4), 0, correct_answer);
-
-  console.log(answersList);
-
+const MultipleChoice = ({ answersList, checkAnswer }) => {
   return (
     <>
       {answersList.map((answer) => {

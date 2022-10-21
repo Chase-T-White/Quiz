@@ -1,9 +1,11 @@
 import {
   SET_LOADING,
   SET_QUIZ,
-  SET_QUESTION_TYPE,
   BUILD_QUERY,
-  BUILD_QUIZ_QUESTION,
+  SET_CORRECT_TRACKER,
+  SET_ISCHECKED,
+  NEXT_QUESTION,
+  RESET,
 } from "./actions";
 
 const reducer = (state, action) => {
@@ -29,43 +31,34 @@ const reducer = (state, action) => {
       return { ...state, loading: action.payload };
     case SET_QUIZ:
       return { ...state, loading: false, quiz: action.payload };
-    // case BUILD_QUIZ_Question:
-    //   if (state.quiz[0] === 'multiple choice') {
-    //     let choices = payload.
-    //     return {...state, quizQuestion: {'correctAnswer': payload.correct_answer, quizChoices: } }
-    //   }
-    //   return {...state, quizQuestion: {'correctAnswer': payload.correct_answer};
-
+    case SET_CORRECT_TRACKER:
+      return {
+        ...state,
+        isChecked: true,
+        correctTracker: action.payload + 1,
+      };
+    case SET_ISCHECKED:
+      return { ...state, isChecked: true };
+    case NEXT_QUESTION:
+      return { ...state, isChecked: false, index: action.payload + 1 };
+    case RESET:
+      return {
+        loading: true,
+        query: {
+          category: "",
+          difficulty: "",
+          type: "",
+          amount: 10,
+        },
+        quiz: [],
+        isChecked: false,
+        correctTracker: 0,
+        index: 0,
+        isResults: false,
+      };
     default:
       throw new Error(`No matching "${action.type}" action type`);
   }
 };
 
 export default reducer;
-
-// const initialState = {
-//   loading: true,
-//   questionType: "",
-//   query: {
-//     category: "",
-//     difficulty: "",
-//     type: "",
-//     numberOfQuestions: 10,
-//   },
-//   quiz: [],
-//   quizQuestion: {},
-//   isResults: false,
-// };
-
-// const initialState = {
-//   loading: true,
-//   questionType: "",
-//   query: {
-//     category: "",
-//     difficulty: "",
-//     type: "",
-//     numberOfQuestions: 10,
-//   },
-//   quiz: { correctAnswer: "", quizChoices: [] },
-//   isResults: false,
-// };
