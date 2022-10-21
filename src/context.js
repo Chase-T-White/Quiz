@@ -4,9 +4,11 @@ import reducer from "./reducer";
 import {
   SET_LOADING,
   SET_QUIZ,
-  SET_QUESTION_TYPE,
   BUILD_QUERY,
-  BUILD_QUIZ_QUESTION,
+  SET_CORRECT_TRACKER,
+  SET_ISCHECKED,
+  NEXT_QUESTION,
+  RESET,
 } from "./actions";
 
 const url = "https://opentdb.com/api.php?amount=";
@@ -20,7 +22,9 @@ const initialState = {
     amount: 10,
   },
   quiz: [],
-  quizQuestion: {},
+  isChecked: false,
+  correctTracker: 0,
+  index: 0,
   isResults: false,
 };
 
@@ -38,8 +42,13 @@ const AppProvider = ({ children }) => {
         `${url}${state.query.amount}${state.query.category}${state.query.difficulty}${state.query.type}`
       );
       const data = await response.json();
-      console.log(data.results);
-      dispatch({ type: SET_QUIZ, payload: data.results });
+      const newData = [...data.results].map((entry) => {
+        let answers = [...entry.incorrect_answers];
+        answers.splice(Math.floor(Math.random() * 4), 0, entry.correct_answer);
+        entry.answersList = answers;
+        return entry;
+      });
+      dispatch({ type: SET_QUIZ, payload: newData });
       navigate("/quiz");
     } catch (error) {
       console.error();
@@ -68,8 +77,29 @@ const AppProvider = ({ children }) => {
     });
   };
 
+  const checkAnswer = (selectedAnswer) => {
+    if (selectedAnswer === state.quiz[state.index].correct_answer) {
+      dispatch({ type: SET_CORRECT_TRACKER, payload: state.correctTracker });
+    }
+    return dispatch({ type: SET_ISCHECKED });
+  };
+
+  const nextQuestion = () => {
+    if (state.index + 1 < state.quiz.length) {
+      return dispatch({ type: NEXT_QUESTION, payload: state.index });
+    }
+    navigate("/results");
+  };
+
+  const resetState = () => {
+    notInitialRender.current = false;
+    return dispatch({ type: RESET });
+  };
+
   return (
-    <AppContext.Provider value={{ ...state, handleSubmit }}>
+    <AppContext.Provider
+      value={{ ...state, handleSubmit, checkAnswer, nextQuestion, resetState }}
+    >
       {children}
     </AppContext.Provider>
   );

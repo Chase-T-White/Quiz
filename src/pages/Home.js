@@ -1,6 +1,3 @@
-import Loading from "../components/Loading";
-import QuizResults from "../components/QuizResults";
-import Quiz from "./Quiz";
 import { useGlobalContext } from "../context";
 
 const Home = () => {

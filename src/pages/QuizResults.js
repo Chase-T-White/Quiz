@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
-
-const score = Math.ceil(Math.random() * 100);
+import { useGlobalContext } from "../context";
 
 const QuizResults = () => {
+  const { correctTracker, quiz, resetState } = useGlobalContext();
+
+  const score = correctTracker / quiz.length;
+
   let message;
 
   if (score === 0) {
@@ -28,8 +31,8 @@ const QuizResults = () => {
             <h5 className='results__title'>Results</h5>
             <h4 className='results__msg'>{message}</h4>
             <p className='results__score'>{score}</p>
-            <Link to='/' className='btn'>
-              Continue
+            <Link to='/' className='btn' onClick={resetState}>
+              Finish
             </Link>
           </div>
         </div>
