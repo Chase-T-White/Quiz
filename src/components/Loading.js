@@ -1,6 +1,6 @@
 const Loading = () => {
   return (
-    <div className='page-center'>
+    <div className='loading-center'>
       <div className='loading-container'>
         <div className='line'></div>
       </div>

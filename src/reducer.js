@@ -5,6 +5,7 @@ import {
   SET_CORRECT_TRACKER,
   SET_ISCHECKED,
   NEXT_QUESTION,
+  SET_RESULTS,
   RESET,
 } from "./actions";
 
@@ -13,6 +14,7 @@ const reducer = (state, action) => {
     case BUILD_QUERY:
       return {
         ...state,
+        loading: true,
         query: {
           amount: action.payload.amount,
           category:
@@ -35,12 +37,23 @@ const reducer = (state, action) => {
       return {
         ...state,
         isChecked: true,
-        correctTracker: action.payload + 1,
+        correctTracker: action.payload[0] + 1,
+        selectedAnswer: action.payload[1],
       };
     case SET_ISCHECKED:
-      return { ...state, isChecked: true };
+      if (!action.payload) {
+        action.payload = null;
+      }
+      return { ...state, isChecked: true, selectedAnswer: action.payload };
     case NEXT_QUESTION:
-      return { ...state, isChecked: false, index: action.payload + 1 };
+      return {
+        ...state,
+        isChecked: false,
+        index: action.payload + 1,
+        selectedAnswer: null,
+      };
+    case SET_RESULTS:
+      return { ...state, isResults: true };
     case RESET:
       return {
         loading: true,
