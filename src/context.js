@@ -8,13 +8,14 @@ import {
   SET_CORRECT_TRACKER,
   SET_ISCHECKED,
   NEXT_QUESTION,
+  SET_RESULTS,
   RESET,
 } from "./actions";
 
 const url = "https://opentdb.com/api.php?amount=";
 
 const initialState = {
-  loading: true,
+  loading: false,
   query: {
     category: "",
     difficulty: "",
@@ -22,6 +23,7 @@ const initialState = {
     amount: 10,
   },
   quiz: [],
+  selectedAnswer: null,
   isChecked: false,
   correctTracker: 0,
   index: 0,
@@ -36,7 +38,6 @@ const AppProvider = ({ children }) => {
   const navigate = useNavigate();
 
   const fetchData = async () => {
-    dispatch({ type: SET_LOADING, payload: true });
     try {
       const response = await fetch(
         `${url}${state.query.amount}${state.query.category}${state.query.difficulty}${state.query.type}`
@@ -49,7 +50,6 @@ const AppProvider = ({ children }) => {
         return entry;
       });
       dispatch({ type: SET_QUIZ, payload: newData });
-      navigate("/quiz");
     } catch (error) {
       console.error();
       dispatch({ type: SET_LOADING, payload: false });
@@ -66,6 +66,7 @@ const AppProvider = ({ children }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    navigate("/quiz");
     return dispatch({
       type: BUILD_QUERY,
       payload: {
@@ -77,18 +78,23 @@ const AppProvider = ({ children }) => {
     });
   };
 
-  const checkAnswer = (selectedAnswer) => {
-    if (selectedAnswer === state.quiz[state.index].correct_answer) {
-      dispatch({ type: SET_CORRECT_TRACKER, payload: state.correctTracker });
+  const checkAnswer = (selectAnswer) => {
+    if (selectAnswer === state.quiz[state.index].correct_answer) {
+      dispatch({
+        type: SET_CORRECT_TRACKER,
+        payload: [state.correctTracker, selectAnswer],
+      });
     }
-    return dispatch({ type: SET_ISCHECKED });
+    return dispatch({ type: SET_ISCHECKED, payload: selectAnswer });
   };
 
   const nextQuestion = () => {
     if (state.index + 1 < state.quiz.length) {
       return dispatch({ type: NEXT_QUESTION, payload: state.index });
+    } else {
+      dispatch({ type: SET_RESULTS });
+      navigate("/results");
     }
-    navigate("/results");
   };
 
   const resetState = () => {

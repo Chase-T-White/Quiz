@@ -1,6 +1,6 @@
 .quiz__options-form {
   background: var(--clr-primary);
-  border: 0.2rem solid var(--clr-accent);
+  border: 0.3rem solid var(--clr-accent);
   border-radius: 0.5rem;
   padding: 5rem 3rem;
   gap: 2rem;
@@ -16,4 +16,14 @@
   color: var(--clr-white);
   font-size: 1.8rem;
   font-weight: 600;
+}
+
+input {
+  outline: none;
+}
+
+@media (max-width: 350px) {
+  .quiz__options-form {
+    width: 100vw;
+  }
 }

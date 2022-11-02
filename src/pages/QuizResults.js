@@ -1,10 +1,14 @@
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useGlobalContext } from "../context";
 
 const QuizResults = () => {
-  const { correctTracker, quiz, resetState } = useGlobalContext();
+  const { correctTracker, quiz, isResults, resetState } = useGlobalContext();
 
-  const score = correctTracker / quiz.length;
+  if (!isResults) {
+    return <Navigate to='/' />;
+  }
+
+  const score = (correctTracker / quiz.length) * 100;
 
   let message;
 
@@ -14,9 +18,7 @@ const QuizResults = () => {
     message = "For the meat grinder";
   } else if (score <= 75) {
     message = "How many forks have you stuck in the socket?";
-  } else if (score <= 95) {
-    message = "I bet all that trivia knowledge gets you laid...";
-  } else if (score === 100) {
+  } else if (score <= 100) {
     message =
       "Nice. You just had to use Google to cheat my shitty little quiz game. Proud of yourself?";
   } else {
@@ -30,7 +32,9 @@ const QuizResults = () => {
           <div className='results text-container flex fd-column'>
             <h5 className='results__title'>Results</h5>
             <h4 className='results__msg'>{message}</h4>
-            <p className='results__score'>{score}</p>
+            <p className='results__score'>
+              You answered {correctTracker} / {quiz.length} correct
+            </p>
             <Link to='/' className='btn' onClick={resetState}>
               Finish
             </Link>

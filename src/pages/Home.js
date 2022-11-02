@@ -6,7 +6,8 @@ const Home = () => {
   return (
     <section>
       <div className='container'>
-        <div className='page-center'>
+        <div className='page-center fd-column'>
+          <h1 className='title'>Another Quiz App</h1>
           <form
             className='quiz__options-form flex fd-column'
             onSubmit={(e) => handleSubmit(e)}
