@@ -18,7 +18,7 @@ const MultipleChoice = ({
             } ${
               isChecked &&
               selectedAnswer === answer &&
-              selectedAnswer != correct_answer
+              selectedAnswer !== correct_answer
                 ? "incorrect"
                 : null
             }`}
