@@ -62,6 +62,7 @@ const AppProvider = ({ children }) => {
     } else {
       notInitialRender.current = true;
     }
+    // eslint-disable-next-line
   }, [state.query]);
 
   const handleSubmit = (e) => {
