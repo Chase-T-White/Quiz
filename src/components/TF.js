@@ -11,7 +11,7 @@ const TF = ({ checkAnswer, selectedAnswer, correct_answer, isChecked }) => {
         } ${
           isChecked &&
           selectedAnswer === "True" &&
-          selectedAnswer != correct_answer
+          selectedAnswer !== correct_answer
             ? "incorrect"
             : null
         }`}
@@ -28,7 +28,7 @@ const TF = ({ checkAnswer, selectedAnswer, correct_answer, isChecked }) => {
         } ${
           isChecked &&
           selectedAnswer === "False" &&
-          selectedAnswer != correct_answer
+          selectedAnswer !== correct_answer
             ? "incorrect"
             : null
         }`}
